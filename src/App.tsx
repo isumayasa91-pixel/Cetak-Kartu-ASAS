@@ -26,6 +26,33 @@ import {
 } from "firebase/firestore";
 import { db } from "./lib/firebase";
 
+// --- Helpers ---
+const ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
+
+export const formatRoom = (room?: string | null): string => {
+  if (!room) return "I";
+  const trimmed = room.toString().trim();
+  if (!trimmed) return "I";
+
+  // Clean common prefixes: R-01, R. 01, R.01, R.O1, R-O1, R 01, RUANG 01, RUANG-01, etc.
+  const normalized = trimmed.replace(/O([0-9])/gi, '0$1');
+  const cleaned = normalized.replace(/^(RUANG|R)[\.\-]?\s*/i, "").trim();
+
+  // If cleaned is already a valid Roman numeral from I to XV
+  const upper = cleaned.toUpperCase();
+  if (ROMAN_NUMERALS.includes(upper)) {
+    return upper;
+  }
+
+  // If cleaned is a number 1..15 or 01..15
+  const num = parseInt(cleaned, 10);
+  if (!isNaN(num) && num >= 1 && num <= 15) {
+    return ROMAN_NUMERALS[num - 1];
+  }
+
+  return upper || trimmed;
+};
+
 // --- Components ---
 
 interface ExamCardProps {
@@ -89,7 +116,7 @@ const ExamCard = ({ student, participantNo, photoUrl, printDate, kopImageUrl }: 
           <div className="grid grid-cols-[100px_10px_1fr] items-start">
             <span className="font-semibold">Ruang</span>
             <span>:</span>
-            <span>{student.room}</span>
+            <span>{formatRoom(student.room)}</span>
           </div>
         </div>
 
@@ -127,7 +154,7 @@ const ExamCard = ({ student, participantNo, photoUrl, printDate, kopImageUrl }: 
           {/* QR Code (Now on the right) */}
           <div className="bg-white p-1 border border-black shrink-0 mb-1">
             <QRCodeSVG 
-              value={`No. Peserta: ${participantNo}\nNama: ${student.name}\nKelas: ${student.class}\nRuang: ${student.room}`}
+              value={`No. Peserta: ${participantNo}\nNama: ${student.name}\nKelas: ${student.class}\nRuang: ${formatRoom(student.room)}`}
               size={65}
               level="L"
               includeMargin={false}
@@ -203,7 +230,7 @@ export default function App() {
     id: "self",
     name: "",
     class: "VII A",
-    room: "R-I",
+    room: "I",
   });
   const [selfPhoto, setSelfPhoto] = useState<string | null>(null);
   const [studentFormSubmitted, setStudentFormSubmitted] = useState(false);
@@ -231,7 +258,7 @@ export default function App() {
   const filteredStudents = useMemo(() => {
     return allStudents.filter((s) => {
       const classMatch = selectedClass === "ALL" || s.class === selectedClass;
-      const roomMatch = selectedRoom === "ALL" || s.room === selectedRoom;
+      const roomMatch = selectedRoom === "ALL" || formatRoom(s.room) === formatRoom(selectedRoom);
       return classMatch && roomMatch;
     });
   }, [selectedClass, selectedRoom, allStudents]);
@@ -305,7 +332,7 @@ export default function App() {
       const studentData = {
         name,
         class: parts[1]?.trim() || (selectedClass === "ALL" ? "VII A" : selectedClass),
-        room: parts[2]?.trim() || (selectedRoom === "ALL" ? "R-I" : selectedRoom),
+        room: parts[2]?.trim() || (selectedRoom === "ALL" ? "I" : selectedRoom),
         participantNo: participantNo,
         orderIndex: startOrderIndex + index,
         updatedAt: serverTimestamp()
@@ -387,14 +414,14 @@ export default function App() {
       {
         "Nama": "ADITYA PRATAMA",
         "Kelas": "VII A",
-        "Ruang": "R-I",
+        "Ruang": "I",
         "NoPeserta": "08-0033-71-001",
         "Photo": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aditya"
       },
       {
         "Nama": "SITI AMINAH",
         "Kelas": "VII B",
-        "Ruang": "R-II",
+        "Ruang": "II",
         "NoPeserta": "08-0033-72-001",
         "Photo": "https://api.dicebear.com/7.x/avataaars/svg?seed=Siti"
       }
@@ -611,11 +638,11 @@ export default function App() {
                   <div>
                     <label className="block text-[11px] font-bold text-text-muted uppercase mb-1.5 ml-1">Ruang</label>
                     <select
-                      value={selfStudent.room}
+                      value={formatRoom(selfStudent.room)}
                       onChange={(e) => setSelfStudent({...selfStudent, room: e.target.value})}
                       className="w-full p-3 bg-bg-main border border-border-ui rounded-xl text-sm font-bold outline-none"
                     >
-                      {Array.from({ length: 15 }, (_, i) => `R-${String(i + 1).padStart(2, "0")}`).map(r => (
+                      {["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"].map(r => (
                         <option key={r} value={r}>{r}</option>
                       ))}
                     </select>
@@ -808,7 +835,7 @@ export default function App() {
                 className="w-full p-2 bg-white border border-border-ui rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent/20"
               >
                 <option value="ALL">-- Semua Ruang --</option>
-                {["R-I", "R-II", "R-III", "R-IV", "R-V", "R-VI", "R-VII", "R-VIII", "R-IX", "R-X", "R-XI", "R-XII", "R-XIII", "R-XIV", "R-XV"].map((room) => (
+                {["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"].map((room) => (
                   <option key={room} value={room}>{room}</option>
                 ))}
               </select>
@@ -1176,7 +1203,7 @@ export default function App() {
                   <textarea
                     value={excelInput}
                     onChange={(e) => setExcelInput(e.target.value)}
-                    placeholder="Contoh:&#10;I Putu Gede	VII A	R-I&#10;Ni Made Rai	VII A	R-I"
+                    placeholder="Contoh:&#10;I Putu Gede	VII A	I&#10;Ni Made Rai	VII A	I"
                     className="w-full h-40 p-3 bg-bg-main border border-border-ui rounded-xl text-sm font-mono outline-none focus:ring-2 focus:ring-accent/20"
                   />
                 </div>
