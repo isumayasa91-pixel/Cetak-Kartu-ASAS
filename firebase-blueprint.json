@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Data peserta ujian",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Nama lengkap siswa" },
+        "class": { "type": "string", "description": "Kelas" },
+        "room": { "type": "string", "description": "Ruang ujian" },
+        "photoUrl": { "type": "string", "description": "URL foto siswa" },
+        "participantNo": { "type": "string", "description": "Nomor peserta ujian" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Waktu update terakhir" }
+      },
+      "required": ["name", "class", "room"]
+    }
+  },
+  "firestore": {
+    "students/{studentId}": {
+      "schema": "Student",
+      "description": "Koleksi data seluruh siswa"
+    }
+  }
+}

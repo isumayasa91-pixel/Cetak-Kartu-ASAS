@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) { return id is string && id.size() <= 128; }
+    function isSignedIn() { return request.auth != null; }
+    
+    function isValidStudent(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() < 256 &&
+             data.class is string && data.class.size() > 0 &&
+             data.room is string && data.room.size() > 0;
+    }
+
+    match /students/{studentId} {
+      // Allow public read/list so students can find their data by name
+      allow read, list: if true;
+      
+      // Allow writes (for Admin import)
+      allow create, update: if isValidId(studentId) && isValidStudent(request.resource.data);
+      allow delete: if true; 
+    }
+
+    match /settings/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
