@@ -522,7 +522,8 @@ export default function App() {
     // Basic mapping for class code
     const classMap: Record<string, string> = {
       "VII A": "71", "VII B": "72", "VII C": "73", "VII D": "74", "VII E": "75",
-      "VIII A": "81", "VIII B": "82", "VIII C": "83", "VIII D": "84", "VIII E": "85"
+      "VIII A": "81", "VIII B": "82", "VIII C": "83", "VIII D": "84", "VIII E": "85",
+      "IX A": "91", "IX B": "92", "IX C": "93", "IX D": "94", "IX E": "95"
     };
     
     const classCode = classMap[student.class] || "00";
@@ -628,7 +629,7 @@ export default function App() {
                       onChange={(e) => setSelfStudent({...selfStudent, class: e.target.value})}
                       className="w-full p-3 bg-bg-main border border-border-ui rounded-xl text-sm font-bold outline-none"
                     >
-                      {["VII A", "VII B", "VII C", "VII D", "VII E", "VIII A", "VIII B", "VIII C", "VIII D", "VIII E"].map(c => (
+                      {["VII A", "VII B", "VII C", "VII D", "VII E", "VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "IX A", "IX B", "IX C", "IX D", "IX E"].map(c => (
                         <option key={c} value={c}>{c}</option>
                       ))}
                     </select>
@@ -819,6 +820,13 @@ export default function App() {
                   <option value="VIII C">VIII C</option>
                   <option value="VIII D">VIII D</option>
                   <option value="VIII E">VIII E</option>
+                </optgroup>
+                <optgroup label="Kelas IX">
+                  <option value="IX A">IX A</option>
+                  <option value="IX B">IX B</option>
+                  <option value="IX C">IX C</option>
+                  <option value="IX D">IX D</option>
+                  <option value="IX E">IX E</option>
                 </optgroup>
               </select>
             </div>
