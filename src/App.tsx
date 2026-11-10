@@ -131,21 +131,21 @@ const ExamCard = ({ student, participantNo, photoUrl, printDate, kopImageUrl }: 
             )}
           </div>
 
-          {/* Signature Area (Centered neatly in the middle) */}
-          <div className="flex-1 flex flex-col items-center justify-end text-center text-[9px] leading-tight px-1 pb-0.5">
-            <p className="w-full text-center mb-0.5 leading-none">{printDate}</p>
-            <p className="w-full text-center mb-0.5 font-semibold leading-none">Plt. Kepala Sekolah,</p>
-            <div className="relative w-full h-12 flex justify-center items-center my-0.5">
+          {/* Signature Area (Left aligned: 'B' in Beraban and 'I' in I Nyoman aligned vertically) */}
+          <div className="flex-1 flex flex-col items-start justify-end text-left text-[9px] leading-tight pl-3 pb-0.5">
+            <p className="text-left mb-0.5 leading-none whitespace-nowrap">{printDate}</p>
+            <p className="text-left mb-0.5 font-semibold leading-none whitespace-nowrap">Plt. Kepala Sekolah,</p>
+            <div className="relative w-full h-12 flex justify-start items-center my-0.5">
               <img 
                 src="/assets/aistudio/image_29ebf490.png" 
                 alt="TTD & Cap" 
-                className="h-[84px] max-w-none w-auto absolute -top-3 z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4] pointer-events-none" 
+                className="h-[80px] max-w-none w-auto absolute -top-3 left-2 z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4] pointer-events-none" 
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div className="relative z-20 w-full text-center flex flex-col items-center">
-              <p className="font-bold underline text-[10px] leading-snug w-full text-center whitespace-nowrap">I Nyoman Gede Juwastra, S.Sn.</p>
-              <p className="text-[8.5px] leading-none w-full text-center whitespace-nowrap mt-0.5">NIP. 198503252010011022</p>
+            <div className="relative z-20 text-left flex flex-col items-start">
+              <p className="font-bold underline text-[8.5px] leading-snug text-left whitespace-nowrap">I Nyoman Gede Juwastra, S.Sn.</p>
+              <p className="text-[7.5px] leading-none text-left whitespace-nowrap mt-0.5">NIP. 198503252010011022</p>
             </div>
           </div>
 
