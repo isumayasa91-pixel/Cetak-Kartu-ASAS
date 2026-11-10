@@ -121,33 +121,31 @@ const ExamCard = ({ student, participantNo, photoUrl, printDate, kopImageUrl }: 
         </div>
 
         {/* Footer */}
-        <div className="flex justify-between items-end mt-auto pt-2">
-          <div className="flex items-center gap-3">
-            {/* Photo Box */}
-            <div className="w-[2cm] h-[3cm] border border-black flex items-center justify-center bg-gray-50 relative overflow-hidden shrink-0">
-              {photoUrl ? (
-                <img src={photoUrl} alt="Photo" className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-[8px] text-gray-400 text-center px-1">Pas Foto<br/>2 x 3</span>
-              )}
-            </div>
+        <div className="flex justify-between items-end mt-auto pt-1 gap-1">
+          {/* Photo Box */}
+          <div className="w-[2cm] h-[3cm] border border-black flex items-center justify-center bg-gray-50 relative overflow-hidden shrink-0">
+            {photoUrl ? (
+              <img src={photoUrl} alt="Photo" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-[8px] text-gray-400 text-center px-1">Pas Foto<br/>2 x 3</span>
+            )}
+          </div>
 
-            {/* Signature Area (Now next to photo) */}
-            <div className="text-center text-[9px] leading-tight min-w-[3.5cm]">
-              <p className="mb-0.5">{printDate}</p>
-              <p className="mb-0.5 font-semibold">Plt. Kepala Sekolah,</p>
-              <div className="relative h-14 flex justify-center items-center">
-                <img 
-                  src="/assets/aistudio/image_29ebf490.png" 
-                  alt="TTD & Cap" 
-                  className="h-[88px] max-w-none w-auto absolute -top-2 z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4] pointer-events-none" 
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="relative z-20 mt-1">
-                <p className="font-bold underline text-[10.2px]">I Nyoman Gede Juwastra, S.Sn.</p>
-                <p className="text-[8.5px]">NIP. 198503252010011022</p>
-              </div>
+          {/* Signature Area (Centered neatly in the middle) */}
+          <div className="flex-1 flex flex-col items-center justify-end text-center text-[9px] leading-tight px-1 pb-0.5">
+            <p className="w-full text-center mb-0.5 leading-none">{printDate}</p>
+            <p className="w-full text-center mb-0.5 font-semibold leading-none">Plt. Kepala Sekolah,</p>
+            <div className="relative w-full h-12 flex justify-center items-center my-0.5">
+              <img 
+                src="/assets/aistudio/image_29ebf490.png" 
+                alt="TTD & Cap" 
+                className="h-[84px] max-w-none w-auto absolute -top-3 z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4] pointer-events-none" 
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <div className="relative z-20 w-full text-center flex flex-col items-center">
+              <p className="font-bold underline text-[10px] leading-snug w-full text-center whitespace-nowrap">I Nyoman Gede Juwastra, S.Sn.</p>
+              <p className="text-[8.5px] leading-none w-full text-center whitespace-nowrap mt-0.5">NIP. 198503252010011022</p>
             </div>
           </div>
 
