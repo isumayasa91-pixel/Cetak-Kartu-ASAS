@@ -136,11 +136,11 @@ const ExamCard = ({ student, participantNo, photoUrl, printDate, kopImageUrl }: 
             <div className="text-center text-[9px] leading-tight min-w-[3.5cm]">
               <p className="mb-0.5">{printDate}</p>
               <p className="mb-0.5 font-semibold">Plt. Kepala Sekolah,</p>
-              <div className="relative h-12 flex justify-center items-center">
+              <div className="relative h-14 flex justify-center items-center">
                 <img 
                   src="/assets/aistudio/image_29ebf490.png" 
                   alt="TTD & Cap" 
-                  className="h-16 w-auto absolute z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4]" 
+                  className="h-[88px] max-w-none w-auto absolute -top-2 z-10 mix-blend-multiply contrast-[1.8] brightness-[1.05] saturate-[1.4] pointer-events-none" 
                   referrerPolicy="no-referrer"
                 />
               </div>
